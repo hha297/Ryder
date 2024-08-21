@@ -1,11 +1,12 @@
 /* eslint-disable prettier/prettier */
-import CustomButton from '@/components/CustomButton';
-import { onboarding } from '@/constants';
 import { router } from 'expo-router';
 import { useRef, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Swiper from 'react-native-swiper';
+
+import CustomButton from '@/components/CustomButton';
+import { onboarding } from '@/constants';
 
 const Onboarding = () => {
         const swiperRef = useRef<Swiper>();
@@ -39,7 +40,11 @@ const Onboarding = () => {
                                 ))}
                         </Swiper>
 
-                        <CustomButton title={isLastSlide ? 'Get Started' : 'Next'} onPress={() => (isLastSlide ? router.replace('/(auth)/sign-up') : swiperRef.current?.scrollBy())} />
+                        <CustomButton
+                                title={isLastSlide ? 'Get Started' : 'Next'}
+                                onPress={() => (isLastSlide ? router.replace('/(auth)/sign-up') : swiperRef.current?.scrollBy())}
+                                className="w-4/5"
+                        />
                 </SafeAreaView>
         );
 };
