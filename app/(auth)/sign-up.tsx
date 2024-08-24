@@ -9,6 +9,7 @@ import CustomButton from '@/components/CustomButton';
 import InputField from '@/components/InputField';
 import OAuth from '@/components/OAuth';
 import { icons, images } from '@/constants';
+import { fetchAPI } from '@/lib/fetch';
 
 const SignUp = () => {
         const { isLoaded, signUp, setActive } = useSignUp();
@@ -56,7 +57,14 @@ const SignUp = () => {
                         });
 
                         if (completeSignUp.status === 'complete') {
-                                // TODO: Create a database
+                                await fetchAPI('/(api)/user', {
+                                        method: 'POST',
+                                        body: JSON.stringify({
+                                                name: form.name,
+                                                email: form.email,
+                                                clerkId: completeSignUp.createdUserId,
+                                        }),
+                                });
                                 await setActive({ session: completeSignUp.createdSessionId });
                                 setVerification({ ...verification, state: 'success' });
                         } else {
