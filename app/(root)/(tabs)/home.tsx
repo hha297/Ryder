@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import GoogleTextInput from '@/components/GoogleTextInput';
+import Map from '@/components/Map';
 import RideCard from '@/components/RideCard';
 import { icons, images } from '@/constants';
 import { SignedIn, SignedOut, useUser } from '@clerk/clerk-expo';
@@ -144,8 +145,11 @@ const Home = () => {
                                                 <GoogleTextInput icon={icons.search} containerStyle="bg-white shadow-md shadow-neutral-300" handlePress={handleDestinationPress} />
                                                 <>
                                                         <Text className="text-xl font-JakartaBold mt-5 mb-3 ">Your Current Location</Text>
-                                                        <View className="flex flex-row items-center bg-transparent h-80"></View>
+                                                        <View className="flex flex-row items-center bg-transparent h-80">
+                                                                <Map />
+                                                        </View>
                                                 </>
+                                                <Text className="text-xl font-JakartaBold mt-5 mb-3 ">Recent Rides</Text>
                                         </>
                                 )}
                         ></FlatList>
