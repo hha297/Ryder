@@ -49,7 +49,10 @@ const Map = () => {
 
         const region = calculateRegion({ userLongitude, userLatitude, destinationLatitude, destinationLongitude });
         const [markers, setMarkers] = useState<MarkerData[]>([]);
+
         useEffect(() => {
+                //TODO:
+                //setDrivers(drivers);
                 if (Array.isArray(mockDrivers)) {
                         if (!userLatitude || !userLongitude) return;
                         const newMarkers = generateMarkersFromData({ data: mockDrivers, userLatitude, userLongitude });
