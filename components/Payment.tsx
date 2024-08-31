@@ -1,12 +1,15 @@
 import { useStripe } from '@stripe/stripe-react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import CustomButton from '@/components/CustomButton';
 import { PaymentProps } from '@/types/type';
-import { Alert } from 'react-native';
+import { Alert, Image, Text, View } from 'react-native';
 import { fetchAPI } from '@/lib/fetch';
 import { useLocationStore } from '@/store';
 import { useAuth } from '@clerk/clerk-expo';
+import ReactNativeModal from 'react-native-modal';
+import { images } from '@/constants';
+import { router } from 'expo-router';
 
 const Payment = ({ fullName, email, amount, driverId, rideTime }: PaymentProps) => {
         const { initPaymentSheet, presentPaymentSheet } = useStripe();
@@ -17,10 +20,10 @@ const Payment = ({ fullName, email, amount, driverId, rideTime }: PaymentProps) 
 
         const initializePaymentSheet = async () => {
                 const { error } = await initPaymentSheet({
-                        merchantDisplayName: 'Example, Inc.',
+                        merchantDisplayName: 'Ryde Inc',
                         intentConfiguration: {
                                 mode: {
-                                        amount: 1099,
+                                        amount: parseInt(amount) * 100,
                                         currencyCode: 'USD',
                                 },
                                 confirmHandler: async (paymentMethod, shouldSavePaymentMethod, intentCreationCallback) => {
@@ -69,16 +72,20 @@ const Payment = ({ fullName, email, amount, driverId, rideTime }: PaymentProps) 
                                                                         user_id: userId,
                                                                 }),
                                                         });
+                                                        intentCreationCallback({
+                                                                clientSecret: result.client_secret,
+                                                        });
                                                 }
                                         }
                                 },
                         },
+                        returnURL: 'myapp"//book-ride',
                 });
                 if (error) {
+                        console.log(error);
                 }
         };
 
-        const confirmHandler = async () => {};
         const openPaymentSheet = async () => {
                 await initializePaymentSheet();
 
@@ -94,6 +101,20 @@ const Payment = ({ fullName, email, amount, driverId, rideTime }: PaymentProps) 
         return (
                 <>
                         <CustomButton title="Confirm Ride" className="my-10" onPress={openPaymentSheet} />
+                        <ReactNativeModal isVisible={success} onBackdropPress={() => setSuccess(false)}>
+                                <View className="flex flex-col items-center justify-center bg-white p-7 rounded-2xl">
+                                        <Image source={images.check} className="w-28 h-28 mt-5" />
+                                        <Text className="text-3xl text-center font-JakartaBold mt-5">Ride booked!</Text>
+                                        <Text className=" text-general-200 font-JakartaMedium text-center my-5">Thank you for your booking. Your reservation has been placed. Enjoy your trip!</Text>
+                                        <CustomButton
+                                                title="Back Home"
+                                                onPress={() => {
+                                                        setSuccess(false);
+                                                        router.push('/(root)/(tabs)/home');
+                                                }}
+                                        />
+                                </View>
+                        </ReactNativeModal>
                 </>
         );
 };
