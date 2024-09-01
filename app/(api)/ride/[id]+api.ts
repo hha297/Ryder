@@ -35,6 +35,7 @@ export async function GET(request: Request, { id }: { id: string }) {
             rides.user_id = ${id}
         ORDER BY 
             rides.created_at DESC;
+            
     `;
 
                 return Response.json({ data: response });

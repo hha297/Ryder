@@ -10,6 +10,7 @@ import MapViewDirections from 'react-native-maps-directions';
 
 const Map = () => {
         const { data: drivers, loading, error } = useFetch<Driver[]>('/(api)/driver');
+
         const { userLongitude, userLatitude, destinationLatitude, destinationLongitude } = useLocationStore();
         const { selectedDriver, setDrivers } = useDriverStore();
 
