@@ -16,6 +16,7 @@ const Payment = ({ fullName, email, amount, driverId, rideTime }: PaymentProps) 
         const { userAddress, userLongitude, userLatitude, destinationLatitude, destinationAddress, destinationLongitude } = useLocationStore();
 
         const { userId } = useAuth();
+
         const [success, setSuccess] = useState<boolean>(false);
 
         const openPaymentSheet = async () => {
